@@ -99,4 +99,15 @@ public class IPLAnalyserTest {
         }
     }
 
+    @Test
+    public void givenIPLMostRunsData_IfDataNotLoadedForSortingStrikeRates_ShouldThrowException() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.BY_STRIKERATE);
+            IPLDAO[] csvs = new Gson().fromJson(sortedResult, IPLDAO[].class);
+        } catch (AnalyserException e) {
+            Assert.assertEquals(AnalyserException.ExceptionType.NO_CENSUS_DATA, e.type);
+        }
+    }
+
 }
