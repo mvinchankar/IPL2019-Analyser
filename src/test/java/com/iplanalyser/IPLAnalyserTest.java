@@ -1,5 +1,6 @@
 package com.iplanalyser;
 
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class IPLAnalyserTest {
             = "src/test/resources/IncorrectIPL2019FactsheetMostRuns.csv";
 
     @Test
-    public void givenIndiaCensusData_IfCorrectCSVFile_ShouldReturnCorrectRecords() {
+    public void givenIPLMostRunsData_IfCorrectCSVFile_ShouldReturnCorrectRecords() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         Map<String, IPLMostRunsCSV> map = null;
         try {
@@ -30,7 +31,7 @@ public class IPLAnalyserTest {
     }
 
     @Test
-    public void givenIndiaCensusData_IfInCorrectCSVFilePath_ShouldThrowException() {
+    public void givenIPLMostRunsData_IfInCorrectCSVFilePath_ShouldThrowException() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         Map<String, IPLMostRunsCSV> map = null;
         try {
@@ -41,34 +42,47 @@ public class IPLAnalyserTest {
     }
 
     @Test
-    public void givenIndiaCensusData_IfInCorrectCSV_ShouldThrowException() {
+    public void givenIPLMostRunsData_IfInCorrectCSV_ShouldThrowException() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         Map<String, IPLMostRunsCSV> map = null;
         try {
             map = iplAnalyser.loadIPLData(INCORRECT_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
         } catch (AnalyserException e) {
-            Assert.assertEquals(AnalyserException.ExceptionType.CSV_FILE_ISSUES, e.type);
+            Assert.assertEquals(AnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
     }
 
     @Test
-    public void givenIndiaCensusData_IfCorrectCSVButHasNullValues_ShouldThrowException() {
+    public void givenIPLMostRunsData_IfCorrectCSVButHasNullValues_ShouldThrowException() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         Map<String, IPLMostRunsCSV> map = null;
         try {
             map = iplAnalyser.loadIPLData(NULL_VALUE_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
         } catch (AnalyserException e) {
-            Assert.assertEquals(AnalyserException.ExceptionType.CSV_FILE_ISSUES, e.type);
+            Assert.assertEquals(AnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
     }
 
     @Test
-    public void givenIndiaCensusData_IfCorrectCSVButDataNotLoad_ShouldThrowException() {
+    public void givenIPLMostRunsData_IfCorrectCSVButDataNotLoad_ShouldThrowException() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         try {
             iplAnalyser.loadIPLData(NULL_VALUE_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
         } catch (AnalyserException e) {
-            Assert.assertEquals(AnalyserException.ExceptionType.CSV_FILE_ISSUES, e.type);
+            Assert.assertEquals(AnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+
+    @Test
+    public void givenIPLMostRunsData_IfSortedByAverage_ShouldReturnCorrectRecords() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
+            iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.byAverage);
+            IPLMostRunsCSV[] csvs = new Gson().fromJson(sortedResult, IPLMostRunsCSV[].class);
+            Assert.assertEquals("MS Dhoni", csvs[0].playerName);
+        } catch (AnalyserException e) {
+            e.printStackTrace();
         }
     }
 
