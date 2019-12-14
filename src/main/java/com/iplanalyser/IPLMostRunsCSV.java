@@ -4,6 +4,9 @@ import com.opencsv.bean.CsvBindByName;
 
 public class IPLMostRunsCSV {
 
+    @CsvBindByName(column = "POS")
+    public int position;
+
     @CsvBindByName(column = "PLAYER", required = true)
     public String playerName;
 
@@ -43,10 +46,24 @@ public class IPLMostRunsCSV {
     @CsvBindByName(column = "6s")
     public int numberOf6sScored;
 
-    public IPLMostRunsCSV(IPLMostRunsCSV mostRunsCSV) {
-
-    }
-
     public IPLMostRunsCSV() {
     }
+
+    public IPLMostRunsCSV(IPLMostRunsCSV mostRunsCSV) {
+        this.position = mostRunsCSV.position;
+        this.playerName = mostRunsCSV.playerName;
+        this.matchPlayed = mostRunsCSV.matchPlayed;
+        this.inningsPlayed = mostRunsCSV.inningsPlayed;
+        this.notOut = mostRunsCSV.notOut;
+        this.runsScored = mostRunsCSV.runsScored;
+        this.highestScored = mostRunsCSV.highestScored;
+        this.average = mostRunsCSV.average;
+        this.ballFaced = mostRunsCSV.ballFaced;
+        this.strikeRate = mostRunsCSV.strikeRate;
+        this.numberOfHundredScored = mostRunsCSV.numberOfHundredScored;
+        this.numberOfFiftyScored = mostRunsCSV.numberOfFiftyScored;
+        this.numberOf4sScored = mostRunsCSV.numberOf4sScored;
+        this.numberOf6sScored = mostRunsCSV.numberOf6sScored;
+    }
+
 }
