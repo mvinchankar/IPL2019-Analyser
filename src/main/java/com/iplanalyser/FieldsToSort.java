@@ -1,5 +1,5 @@
 package com.iplanalyser;
 
 public enum FieldsToSort {
-    byAverage
+    BY_AVERAGE, BY_STRIKERATE
 }
