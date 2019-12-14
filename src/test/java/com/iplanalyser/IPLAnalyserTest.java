@@ -11,7 +11,7 @@ public class IPLAnalyserTest {
             ="src/test/resources/IPL2019FactsheetMostRuns.csv";
 
     @Test
-    public void givenIndiaCensusData_ShouldReturnCorrectRecords() {
+    public void givenIndiaCensusData_IfCorrectCSVFile_ShouldReturnCorrectRecords() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
         Map<String, IPLMostRunsCSV> map = iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
         Assert.assertEquals(100, map.size());
