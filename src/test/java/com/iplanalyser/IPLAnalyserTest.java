@@ -20,7 +20,7 @@ public class IPLAnalyserTest {
     @Test
     public void givenIPLMostRunsData_IfCorrectCSVFile_ShouldReturnCorrectRecords() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
-        Map<String, IPLMostRunsCSV> map = null;
+        Map<String, IPLDAO> map = null;
         try {
             map = iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
             Assert.assertEquals(100, map.size());
@@ -33,7 +33,7 @@ public class IPLAnalyserTest {
     @Test
     public void givenIPLMostRunsData_IfInCorrectCSVFilePath_ShouldThrowException() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
-        Map<String, IPLMostRunsCSV> map = null;
+        Map<String, IPLDAO> map = null;
         try {
             map = iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_MOST_RUNS_CSV_INCORRECT_FILE_PATH);
         } catch (AnalyserException e) {
@@ -44,7 +44,7 @@ public class IPLAnalyserTest {
     @Test
     public void givenIPLMostRunsData_IfInCorrectCSV_ShouldThrowException() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
-        Map<String, IPLMostRunsCSV> map = null;
+        Map<String, IPLDAO> map = null;
         try {
             map = iplAnalyser.loadIPLData(INCORRECT_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
         } catch (AnalyserException e) {
@@ -55,7 +55,7 @@ public class IPLAnalyserTest {
     @Test
     public void givenIPLMostRunsData_IfCorrectCSVButHasNullValues_ShouldThrowException() {
         IPLAnalyser iplAnalyser = new IPLAnalyser();
-        Map<String, IPLMostRunsCSV> map = null;
+        Map<String, IPLDAO> map = null;
         try {
             map = iplAnalyser.loadIPLData(NULL_VALUE_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
         } catch (AnalyserException e) {
@@ -78,9 +78,22 @@ public class IPLAnalyserTest {
         try {
             IPLAnalyser iplAnalyser = new IPLAnalyser();
             iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
-            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.byAverage);
-            IPLMostRunsCSV[] csvs = new Gson().fromJson(sortedResult, IPLMostRunsCSV[].class);
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.BY_AVERAGE);
+            IPLDAO[] csvs = new Gson().fromJson(sortedResult, IPLDAO[].class);
             Assert.assertEquals("MS Dhoni", csvs[0].playerName);
+        } catch (AnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIPLMostRunsData_IfSortedByStrikeRates_ShouldReturnCorrectRecords() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
+            iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.BY_STRIKERATE);
+            IPLDAO[] csvs = new Gson().fromJson(sortedResult, IPLDAO[].class);
+            Assert.assertEquals("Ishant Sharma", csvs[0].playerName);
         } catch (AnalyserException e) {
             e.printStackTrace();
         }
