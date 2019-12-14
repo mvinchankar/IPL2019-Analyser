@@ -62,4 +62,14 @@ public class IPLAnalyserTest {
         }
     }
 
+    @Test
+    public void givenIndiaCensusData_IfCorrectCSVButDataNotLoad_ShouldThrowException() {
+        IPLAnalyser iplAnalyser = new IPLAnalyser();
+        try {
+            iplAnalyser.loadIPLData(NULL_VALUE_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
+        } catch (AnalyserException e) {
+            Assert.assertEquals(AnalyserException.ExceptionType.CSV_FILE_ISSUES, e.type);
+        }
+    }
+
 }
