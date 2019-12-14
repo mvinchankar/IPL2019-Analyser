@@ -13,6 +13,8 @@ public class IPLAnalyserTest {
             = "src/main/resources/IPL2019FactsheetMostRuns.csv";
     private static final String INCORRECT_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH
             = "src/test/resources/IncorrectIPL2019FactsheetMostRuns.csv";
+    private static final String NULL_VALUE_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH
+            = "src/test/resources/IncorrectIPL2019FactsheetMostRuns.csv";
 
     @Test
     public void givenIndiaCensusData_IfCorrectCSVFile_ShouldReturnCorrectRecords() {
@@ -44,6 +46,17 @@ public class IPLAnalyserTest {
         Map<String, IPLMostRunsCSV> map = null;
         try {
             map = iplAnalyser.loadIPLData(INCORRECT_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
+        } catch (AnalyserException e) {
+            Assert.assertEquals(AnalyserException.ExceptionType.CSV_FILE_ISSUES, e.type);
+        }
+    }
+
+    @Test
+    public void givenIndiaCensusData_IfCorrectCSVButHasNullValues_ShouldThrowException() {
+        IPLAnalyser iplAnalyser = new IPLAnalyser();
+        Map<String, IPLMostRunsCSV> map = null;
+        try {
+            map = iplAnalyser.loadIPLData(NULL_VALUE_IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
         } catch (AnalyserException e) {
             Assert.assertEquals(AnalyserException.ExceptionType.CSV_FILE_ISSUES, e.type);
         }
