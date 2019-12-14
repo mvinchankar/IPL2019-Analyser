@@ -110,4 +110,17 @@ public class IPLAnalyserTest {
         }
     }
 
+    @Test
+    public void givenIPLMostRunsData_IfSortingForMost6sAnd4s_ShouldReturnCorrectRecords() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
+            iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.BY_4s_AND_6s);
+            IPLDAO[] csvs = new Gson().fromJson(sortedResult, IPLDAO[].class);
+            Assert.assertEquals("Andre Russell", csvs[0].playerName);
+        } catch (AnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
