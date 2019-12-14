@@ -27,7 +27,10 @@ public class IPLAnalyser {
             return iplMostRunsCSVHashMapMap;
         } catch (NoSuchFileException e) {
             throw new AnalyserException(e.getMessage(), AnalyserException.ExceptionType.NO_SUCH_FILE);
-        } catch (IOException | CSVBuilderException e) {
+        } catch (RuntimeException e){
+            throw new AnalyserException(e.getMessage(),AnalyserException.ExceptionType.CSV_FILE_ISSUES);
+        }
+        catch (IOException | CSVBuilderException e) {
             throw new AnalyserException(e.getMessage(), AnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
