@@ -26,6 +26,7 @@ public class IPLAnalyser {
                 census.average, Comparator.reverseOrder()));
         this.fields.put(FieldsToSort.BY_STRIKERATE, Comparator.comparing(census ->
                 census.strikeRate, Comparator.reverseOrder()));
+        this.fields.put(FieldsToSort.BY_4s_AND_6s, new SortMethodContainer().reversed());
     }
 
     public <T> Map<String, IPLDAO> loadIPLData(String filePath) throws AnalyserException {
@@ -53,4 +54,5 @@ public class IPLAnalyser {
         String sortedStateCensus = new Gson().toJson(arrayList);
         return sortedStateCensus;
     }
+
 }
