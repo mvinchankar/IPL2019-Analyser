@@ -28,6 +28,8 @@ public class IPLAnalyser {
                 census.strikeRate, Comparator.reverseOrder()));
         this.fields.put(FieldsToSort.BY_4s_AND_6s, new SortMethodContainer().reversed());
         this.fields.put(FieldsToSort.BY_STRIKERATE_WITHMOST_4sAND6s, new SortMethodContainer().reversed().thenComparing(compare -> compare.strikeRate));
+        Comparator<IPLDAO> comparator = Comparator.comparing(compare -> compare.average);
+        this.fields.put(FieldsToSort.BY_AVERAGE_WITH_STRIKE_RATE, comparator.thenComparing(compare -> compare.strikeRate).reversed());
     }
 
     public <T> Map<String, IPLDAO> loadIPLData(String filePath) throws AnalyserException {
