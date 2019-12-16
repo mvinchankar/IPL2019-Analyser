@@ -30,6 +30,8 @@ public class IPLAnalyser {
         this.fields.put(FieldsToSort.BY_STRIKERATE_WITHMOST_4sAND6s, new SortMethodContainer().reversed().thenComparing(compare -> compare.strikeRate));
         Comparator<IPLDAO> comparator = Comparator.comparing(compare -> compare.average);
         this.fields.put(FieldsToSort.BY_AVERAGE_WITH_STRIKE_RATE, comparator.thenComparing(compare -> compare.strikeRate).reversed());
+        Comparator<IPLDAO> comparator1 = Comparator.comparing(compare -> compare.runsScored);
+        this.fields.put(FieldsToSort.BY_AVERAGE_WITH_MOST_RUNS, comparator.thenComparing(compare -> compare.average).reversed());
     }
 
     public <T> Map<String, IPLDAO> loadIPLData(String filePath) throws AnalyserException {

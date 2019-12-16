@@ -160,4 +160,17 @@ public class IPLAnalyserTest {
         }
     }
 
+    @Test
+    public void givenIPLMostRunsData_IfSortingForMostAverageWithMostRuns_ShouldReturnCorrectRecords() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
+            iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.BY_AVERAGE_WITH_STRIKE_RATE);
+            IPLDAO[] csvs = new Gson().fromJson(sortedResult, IPLDAO[].class);
+            Assert.assertEquals("MS Dhoni", csvs[0].playerName);
+        } catch (AnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

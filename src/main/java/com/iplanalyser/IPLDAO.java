@@ -4,6 +4,7 @@ public class IPLDAO {
 
     public String playerName;
     public int matchPlayed;
+    public int runsScored;
     public double average;
     public double strikeRate;
     public int numberOf4sScored;
@@ -12,6 +13,7 @@ public class IPLDAO {
         playerName = next.playerName;
         matchPlayed = next.matchPlayed;
         average = next.average;
+        runsScored=next.runsScored;
         strikeRate = next.strikeRate;
         numberOf4sScored=next.numberOf4sScored;
         numberOf6sScored=next.numberOf6sScored;
