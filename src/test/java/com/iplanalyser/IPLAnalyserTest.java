@@ -123,4 +123,28 @@ public class IPLAnalyserTest {
         }
     }
 
+    @Test
+    public void givenIPLMostRunsData_IfSortingForMost6sAnd4sButDataNotLoad_ShouldThrowException() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.BY_4s_AND_6s);
+            IPLDAO[] csvs = new Gson().fromJson(sortedResult, IPLDAO[].class);
+        } catch (AnalyserException e) {
+            Assert.assertEquals(AnalyserException.ExceptionType.NO_CENSUS_DATA,e.type);
+        }
+    }
+
+    @Test
+    public void givenIPLMostRunsData_IfSortingForMost6sAnd4sAndStrikingRates_ShouldReturnCorrectRecords() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser();
+            iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_MOST_RUNS_CSV_FILE_PATH);
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.BY_STRIKERATE_WITHMOST_4sAND6s);
+            IPLDAO[] csvs = new Gson().fromJson(sortedResult, IPLDAO[].class);
+            Assert.assertEquals("Andre Russell", csvs[0].playerName);
+        } catch (AnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
