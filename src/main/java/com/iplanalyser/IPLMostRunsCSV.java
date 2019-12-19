@@ -50,4 +50,13 @@ public class IPLMostRunsCSV {
     }
 
 
+    public IPLMostRunsCSV(String playerName, int matchPlayed, double average, int runsScored, double strikeRate, int numberOf4sScored, int numberOf6sScored) {
+        this.playerName=playerName;
+        this.matchPlayed=matchPlayed;
+        this.average=average;
+        this.runsScored=runsScored;
+        this.strikeRate=strikeRate;
+        this.numberOf4sScored=numberOf4sScored;
+        this.numberOf6sScored=numberOf6sScored;
+    }
 }

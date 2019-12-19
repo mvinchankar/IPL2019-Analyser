@@ -17,44 +17,45 @@ import static java.util.stream.Collectors.toCollection;
 
 public class IPLAnalyser {
 
-    Map<String, IPLDAO> iplMostRunsCSVHashMapMap = new HashMap<>();
+    Map<String, IPLDAO> iplHashMap = null;
     Map<FieldsToSort, Comparator<IPLDAO>> fields = null;
+    private PlayerStats statistics;
 
-    public IPLAnalyser() {
+    public IPLAnalyser(PlayerStats statistics) {
         this.fields = new HashMap<>();
+        this.statistics = statistics;
         this.fields.put(FieldsToSort.BY_AVERAGE, Comparator.comparing(census ->
                 census.average, Comparator.reverseOrder()));
         this.fields.put(FieldsToSort.BY_STRIKERATE, Comparator.comparing(census ->
                 census.strikeRate, Comparator.reverseOrder()));
         this.fields.put(FieldsToSort.BY_4s_AND_6s, new SortMethodContainer().reversed());
-        this.fields.put(FieldsToSort.BY_STRIKERATE_WITHMOST_4sAND6s, new SortMethodContainer().reversed().thenComparing(compare -> compare.strikeRate));
+        this.fields.put(FieldsToSort.BY_STRIKERATE_WITHMOST_4sAND6s, new SortMethodContainer()
+                .reversed().thenComparing(compare -> compare.strikeRate));
         Comparator<IPLDAO> comparator = Comparator.comparing(compare -> compare.average);
-        this.fields.put(FieldsToSort.BY_AVERAGE_WITH_STRIKE_RATE, comparator.thenComparing(compare -> compare.strikeRate).reversed());
+        this.fields.put(FieldsToSort.BY_AVERAGE_WITH_STRIKE_RATE, comparator.thenComparing(compare ->
+                compare.strikeRate).reversed());
         Comparator<IPLDAO> comparator1 = Comparator.comparing(compare -> compare.runsScored);
-        this.fields.put(FieldsToSort.BY_AVERAGE_WITH_MOST_RUNS, comparator.thenComparing(compare -> compare.average).reversed());
+        this.fields.put(FieldsToSort.BY_AVERAGE_WITH_MOST_RUNS, comparator1.thenComparing(compare1 ->
+                compare1.average).reversed());
+        this.fields.put(FieldsToSort.BY_TOP_BOWLING_AVERAGES, Comparator.comparing(census ->
+                census.averageOfBowler, Comparator.reverseOrder()));
+        this.fields.put(FieldsToSort.BY_TOP_BOWLING_STRIKING_RATES, Comparator.comparing(census ->
+                census.strikeRatesOfBowler, Comparator.reverseOrder()));
     }
 
-    public <T> Map<String, IPLDAO> loadIPLData(String filePath) throws AnalyserException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(filePath))) {
-            ICSBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IPLMostRunsCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, IPLMostRunsCSV.class);
-            Iterable<IPLMostRunsCSV> censusDAOIterable = () -> censusCSVIterator;
-            StreamSupport.stream(censusDAOIterable.spliterator(), false)
-                    .forEach(censusCSV -> iplMostRunsCSVHashMapMap.put(censusCSV.playerName, new IPLDAO(censusCSV)));
-            return iplMostRunsCSVHashMapMap;
-        } catch (NoSuchFileException e) {
-            throw new AnalyserException(e.getMessage(), AnalyserException.ExceptionType.NO_SUCH_FILE);
-        } catch (CSVBuilderException | IOException e) {
-            throw new AnalyserException(e.getMessage(), AnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        }
+    public int loadIPLData(String csvFilePath) throws AnalyserException {
+        IPLAdapter censusFactory = StatisticsFactory.StatisticsObject(statistics);
+        iplHashMap = censusFactory.loadCensusData(csvFilePath);
+        return iplHashMap.size();
     }
 
     public String getAverageWiseSortedIPLData(FieldsToSort fieldName) throws AnalyserException {
-        if (iplMostRunsCSVHashMapMap == null || iplMostRunsCSVHashMapMap.size() == 0) {
+        if (iplHashMap == null || iplHashMap.size() == 0) {
             throw new AnalyserException("No Census Data", AnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
-        ArrayList arrayList = iplMostRunsCSVHashMapMap.values().stream()
+        ArrayList arrayList = iplHashMap.values().stream()
                 .sorted(this.fields.get(fieldName))
+                .map(censusDAO -> censusDAO.getStatsDTO(statistics))
                 .collect(toCollection(ArrayList::new));
         String sortedStateCensus = new Gson().toJson(arrayList);
         return sortedStateCensus;
