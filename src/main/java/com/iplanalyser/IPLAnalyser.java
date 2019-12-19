@@ -41,6 +41,9 @@ public class IPLAnalyser {
                 census.averageOfBowler, Comparator.reverseOrder()));
         this.fields.put(FieldsToSort.BY_TOP_BOWLING_STRIKING_RATES, Comparator.comparing(census ->
                 census.strikeRatesOfBowler, Comparator.reverseOrder()));
+        this.fields.put(FieldsToSort.BY_TOP_BOWLING_ECONOMY_RATES, Comparator.comparing(census ->
+                census.economyOfBowler));
+
     }
 
     public int loadIPLData(String csvFilePath) throws AnalyserException {

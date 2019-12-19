@@ -7,7 +7,7 @@ public class IPLBowlersCSV {
     @CsvBindByName(column = "POS")
     public int position;
 
-    @CsvBindByName(column = "PLAYER",required =true)
+    @CsvBindByName(column = "PLAYER", required = true)
     public String playerName;
 
     @CsvBindByName(column = "Mat")
@@ -28,7 +28,7 @@ public class IPLBowlersCSV {
     @CsvBindByName(column = "BBI")
     public String bbI;
 
-    @CsvBindByName(column = "Avg",required =true)
+    @CsvBindByName(column = "Avg", required = true)
     public double avgOfBowler;
 
     @CsvBindByName(column = "Econ")
@@ -46,9 +46,10 @@ public class IPLBowlersCSV {
     public IPLBowlersCSV() {
     }
 
-    public IPLBowlersCSV(String playerName, double averageOfBowler, double strikeRateOfBowler) {
-        this.playerName=playerName;
-        this.avgOfBowler=averageOfBowler;
-        this.strikeRateOfBowler=strikeRateOfBowler;
+    public IPLBowlersCSV(String playerName, double averageOfBowler, double strikeRateOfBowler, double economyOfBowler) {
+        this.playerName = playerName;
+        this.avgOfBowler = averageOfBowler;
+        this.strikeRateOfBowler = strikeRateOfBowler;
+        this.economyOfBowler = economyOfBowler;
     }
 }

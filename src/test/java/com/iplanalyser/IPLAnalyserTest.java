@@ -197,4 +197,16 @@ public class IPLAnalyserTest {
         }
     }
 
+    @Test
+    public void givenIPLBowlerData_IfSortingForEconomyRateInBowlingStats_ShouldReturnCorrectRecords() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(PlayerStats.BOWLER_STATS);
+            iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_BOWLING_STATS);
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData(FieldsToSort.BY_TOP_BOWLING_ECONOMY_RATES);
+            IPLDAO[] csvs = new Gson().fromJson(sortedResult, IPLDAO[].class);
+            Assert.assertEquals("Shivam Dube", csvs[0].playerName);
+        } catch (AnalyserException e) {
+            e.printStackTrace();
+        }
+    }
 }
