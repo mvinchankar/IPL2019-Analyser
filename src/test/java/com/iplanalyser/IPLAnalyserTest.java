@@ -234,4 +234,18 @@ public class IPLAnalyserTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenIPLBowlerData_IfSortingForGreatAverageRateWithMostStrikingRate_ShouldReturnCorrectRecords() {
+        try {
+            IPLAnalyser iplAnalyser = new IPLAnalyser(PlayerStats.BOWLER_STATS);
+            iplAnalyser.loadIPLData(IPL_2019_FACTSHEET_BOWLING_STATS);
+            String sortedResult = iplAnalyser.getAverageWiseSortedIPLData
+                    (FieldsToSort.BY_GREAT_AVERAGE_RATE_WITH_BEST_STRIKING_RATE);
+            IPLDAO[] csvs = new Gson().fromJson(sortedResult, IPLDAO[].class);
+            Assert.assertEquals("Suresh Raina", csvs[0].playerName);
+        } catch (AnalyserException e) {
+            e.printStackTrace();
+        }
+    }
 }
