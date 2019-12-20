@@ -12,6 +12,9 @@ public class IPLDAO {
     public double averageOfBowler;
     public double strikeRatesOfBowler;
     public double economyOfBowler;
+    public int bowlersWith4Wickets;
+    public int bowlersWith5Wickets;
+
 
     public IPLDAO(IPLMostRunsCSV next) {
         playerName = next.playerName;
@@ -28,6 +31,8 @@ public class IPLDAO {
         averageOfBowler = next.avgOfBowler;
         strikeRatesOfBowler = next.strikeRateOfBowler;
         economyOfBowler = next.economyOfBowler;
+        bowlersWith4Wickets=next.wickets4Taken;
+        bowlersWith5Wickets =next.wickets5Taken;
     }
 
     public Object getStatsDTO(PlayerStats playerStats) {
@@ -35,6 +40,6 @@ public class IPLDAO {
             return new IPLMostRunsCSV(playerName, matchPlayed, average,
                     runsScored, strikeRate, numberOf4sScored, numberOf6sScored);
         }
-        return new IPLBowlersCSV(playerName, averageOfBowler, strikeRatesOfBowler,economyOfBowler);
+        return new IPLBowlersCSV(playerName, averageOfBowler, strikeRatesOfBowler,economyOfBowler,bowlersWith4Wickets,bowlersWith5Wickets);
     }
 }

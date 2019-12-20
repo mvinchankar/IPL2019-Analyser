@@ -38,11 +38,13 @@ public class IPLAnalyser {
         this.fields.put(FieldsToSort.BY_AVERAGE_WITH_MOST_RUNS, comparator1.thenComparing(compare1 ->
                 compare1.average).reversed());
         this.fields.put(FieldsToSort.BY_TOP_BOWLING_AVERAGES, Comparator.comparing(census ->
-                census.averageOfBowler, Comparator.reverseOrder()));
+                census.averageOfBowler));
         this.fields.put(FieldsToSort.BY_TOP_BOWLING_STRIKING_RATES, Comparator.comparing(census ->
-                census.strikeRatesOfBowler, Comparator.reverseOrder()));
+                census.strikeRatesOfBowler));
         this.fields.put(FieldsToSort.BY_TOP_BOWLING_ECONOMY_RATES, Comparator.comparing(census ->
                 census.economyOfBowler));
+        this.fields.put(FieldsToSort.BY_TOP_BOWLING_STRIKING_RATES_WITH_MOST_4Ws_AND_5Ws, new
+                SortingWithMost4WsAnd5Ws().reversed().thenComparing(compare -> compare.strikeRatesOfBowler));
 
     }
 
