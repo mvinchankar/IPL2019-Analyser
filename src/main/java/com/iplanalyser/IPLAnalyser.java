@@ -48,6 +48,10 @@ public class IPLAnalyser {
         Comparator<IPLDAO> comparator2 = Comparator.comparing(compare -> compare.averageOfBowler);
         this.fields.put(FieldsToSort.BY_GREAT_AVERAGE_RATE_WITH_BEST_STRIKING_RATE, comparator2.
                 thenComparing(compare -> compare.strikeRatesOfBowler));
+        Comparator<IPLDAO> comparator3 = Comparator.comparing(compare -> compare.wicketsTaken,
+                Comparator.reverseOrder());
+        this.fields.put(FieldsToSort.BY_MOST_WICKETS_WITH_GREAT_AVERAGE_RATE,comparator3.
+                thenComparing(compare->compare.averageOfBowler));
     }
 
     public int loadIPLData(String csvFilePath) throws AnalyserException {
@@ -56,7 +60,7 @@ public class IPLAnalyser {
         return iplHashMap.size();
     }
 
-    public String getAverageWiseSortedIPLData(FieldsToSort fieldName) throws AnalyserException {
+    public String getFieldWiseSortedIPLData(FieldsToSort fieldName) throws AnalyserException {
         if (iplHashMap == null || iplHashMap.size() == 0) {
             throw new AnalyserException("No Census Data", AnalyserException.ExceptionType.NO_CENSUS_DATA);
         }

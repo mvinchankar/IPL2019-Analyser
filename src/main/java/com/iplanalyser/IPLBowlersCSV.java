@@ -47,12 +47,14 @@ public class IPLBowlersCSV {
     }
 
     public IPLBowlersCSV(String playerName, double averageOfBowler, double strikeRateOfBowler,
-                         double economyOfBowler, int bowlersWith4Wickets, int bowlersWith5Wickets) {
+                         double economyOfBowler, int bowlersWith4Wickets, int bowlersWith5Wickets,
+                         int wicketsTaken) {
         this.playerName = playerName;
         this.avgOfBowler = averageOfBowler;
         this.strikeRateOfBowler = strikeRateOfBowler;
         this.economyOfBowler = economyOfBowler;
         this.wickets4Taken = bowlersWith4Wickets;
         this.wickets5Taken = bowlersWith5Wickets;
+        this.wicketsTaken = wicketsTaken;
     }
 }
