@@ -26,7 +26,7 @@ public class IPLMostRunsCSV {
     public String highestScored;
 
     @CsvBindByName(column = "Avg", required = true)
-    public double average;
+    public double averageOfBatsmen;
 
     @CsvBindByName(column = "BF")
     public int ballFaced;
@@ -50,13 +50,13 @@ public class IPLMostRunsCSV {
     }
 
 
-    public IPLMostRunsCSV(String playerName, int matchPlayed, double average, int runsScored, double strikeRate, int numberOf4sScored, int numberOf6sScored) {
-        this.playerName=playerName;
-        this.matchPlayed=matchPlayed;
-        this.average=average;
-        this.runsScored=runsScored;
-        this.strikeRate=strikeRate;
-        this.numberOf4sScored=numberOf4sScored;
-        this.numberOf6sScored=numberOf6sScored;
+    public IPLMostRunsCSV(String playerName, int matchPlayed, double averageOfBatsmen, int runsScored, double strikeRate, int numberOf4sScored, int numberOf6sScored) {
+        this.playerName = playerName;
+        this.matchPlayed = matchPlayed;
+        this.averageOfBatsmen = averageOfBatsmen;
+        this.runsScored = runsScored;
+        this.strikeRate = strikeRate;
+        this.numberOf4sScored = numberOf4sScored;
+        this.numberOf6sScored = numberOf6sScored;
     }
 }

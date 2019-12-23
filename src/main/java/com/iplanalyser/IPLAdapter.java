@@ -16,9 +16,9 @@ import java.util.stream.StreamSupport;
 
 public abstract class IPLAdapter {
 
-    public abstract Map<String, IPLDAO> loadCensusData(String csvFilePath) throws AnalyserException;
+    public abstract Map<String, IPLDAO> loadIPLData(String... csvFilePath) throws AnalyserException;
 
-    protected <T> Map<String, IPLDAO> loadCensusData(Class<T> csvClass, String filePath) throws AnalyserException {
+    protected <T> Map<String, IPLDAO> loadIPLData(Class<T> csvClass, String filePath) throws AnalyserException {
         Map<String, IPLDAO> iplHashMap = new HashMap<>();
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath))) {
             ICSBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
