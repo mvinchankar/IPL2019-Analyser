@@ -29,11 +29,14 @@ public class BatsmanAdapter extends IPLAdapter {
     public int loadBowlerData(Map<String, IPLDAO> ipldaoMap, String csvFilePath) throws AnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IPLBowlersCSV> csvStateCode = csvBuilder.getCSVFileIterator(reader, IPLBowlersCSV.class);
-            Iterable<IPLBowlersCSV> stateCodeCSVS = () -> csvStateCode;
-            StreamSupport.stream(stateCodeCSVS.spliterator(), false)
-                    .filter(csvState -> ipldaoMap.get(csvState.playerName) != null)
-                    .forEach(csvState -> ipldaoMap.get(csvState.playerName).averageOfBowler = csvState.avgOfBowler);
+            Iterator<IPLBowlersCSV> iplIterator = csvBuilder.getCSVFileIterator(reader, IPLBowlersCSV.class);
+            Iterable<IPLBowlersCSV> iplBowlersCSVIterable = () -> iplIterator;
+            StreamSupport.stream(iplBowlersCSVIterable.spliterator(), false)
+                    .filter(csvFilter -> ipldaoMap.get(csvFilter.playerName) != null)
+                    .forEach(iplBowlersCSV -> {
+                        ipldaoMap.get(iplBowlersCSV.playerName).averageOfBowler = iplBowlersCSV.avgOfBowler;
+                        ipldaoMap.get(iplBowlersCSV.playerName).wicketsTaken = iplBowlersCSV.wicketsTaken;
+                    });
             return ipldaoMap.size();
         } catch (IOException | CSVBuilderException e) {
             throw new AnalyserException(e.getMessage(),

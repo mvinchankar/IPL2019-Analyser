@@ -22,14 +22,14 @@ public abstract class IPLAdapter {
         Map<String, IPLDAO> iplHashMap = new HashMap<>();
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath))) {
             ICSBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<T> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, csvClass);
-            Iterable<T> censusDAOIterable = () -> censusCSVIterator;
+            Iterator<T> iplCSVIterator = csvBuilder.getCSVFileIterator(reader, csvClass);
+            Iterable<T> iplDAOIterable = () -> iplCSVIterator;
             if (csvClass.getName().equals("com.iplanalyser.IPLMostRunsCSV")) {
-                StreamSupport.stream(censusDAOIterable.spliterator(), false)
+                StreamSupport.stream(iplDAOIterable.spliterator(), false)
                         .map(IPLMostRunsCSV.class::cast)
                         .forEach(iplCSV -> iplHashMap.put(iplCSV.playerName, new IPLDAO(iplCSV)));
             } else if (csvClass.getName().equals("com.iplanalyser.IPLBowlersCSV")) {
-                StreamSupport.stream(censusDAOIterable.spliterator(), false)
+                StreamSupport.stream(iplDAOIterable.spliterator(), false)
                         .map(IPLBowlersCSV.class::cast)
                         .forEach(iplBowlersCSV -> iplHashMap.put(iplBowlersCSV.playerName, new IPLDAO(iplBowlersCSV)));
             }
