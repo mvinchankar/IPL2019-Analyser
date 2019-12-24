@@ -38,6 +38,8 @@ public abstract class IPLAdapter {
             throw new AnalyserException(e.getMessage(), AnalyserException.ExceptionType.NO_SUCH_FILE);
         } catch (CSVBuilderException | IOException e) {
             throw new AnalyserException(e.getMessage(), AnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (RuntimeException e) {
+            throw  new AnalyserException(e.getMessage(),AnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
 }

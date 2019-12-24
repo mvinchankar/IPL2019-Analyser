@@ -36,16 +36,9 @@ public class IPLDAO {
         wicketsTaken = next.wicketsTaken;
     }
 
-    public IPLDAO(IPLDAO iplCSV) {
-
-    }
-
-    public Object getStatsDTO(PlayerStats playerStats) {
-        if (playerStats.equals(PlayerStats.BATTING_STATS)) return new IPLMostRunsCSV(playerName, matchPlayed, averageOfBatsmen,
-                runsScored, strikeRate, numberOf4sScored, numberOf6sScored);
-        if (playerStats.equals(PlayerStats.BOWLER_STATS))
-            return new IPLBowlersCSV(playerName, averageOfBowler, strikeRatesOfBowler, economyOfBowler,
-                    bowlersWith4Wickets, bowlersWith5Wickets, wicketsTaken);
-        return null;
+    public IPLDAO(String playerName, int matchPlayed, double averageOfBatsmen) {
+        this.playerName = playerName;
+        this.matchPlayed = matchPlayed;
+        this.averageOfBatsmen = averageOfBatsmen;
     }
 }

@@ -13,24 +13,33 @@ public class IPLAnalyser {
     Map<String, IPLDAO> iplHashMap;
     private PlayerStats statistics;
     SortingContainer container;
+    private IPLAdapter adapter;
 
     public IPLAnalyser(PlayerStats statistics) {
         container = new SortingContainer();
         this.statistics = statistics;
     }
 
-    public int loadIPLData(String... csvFilePath) throws AnalyserException {
-        IPLAdapter censusFactory = StatisticsFactory.StatisticsObject(statistics);
-        iplHashMap = censusFactory.loadIPLData(csvFilePath);
-        return iplHashMap.size();
+    public void setAdapter(IPLAdapter adapter) {
+        this.adapter = adapter;
     }
 
-    public String getFieldWiseSortedIPLData(FieldsToSort fieldName) throws AnalyserException {
+    public IPLAnalyser() {
+
+    }
+
+    public Map<String, IPLDAO> loadIPLData(String... csvFilePath) throws AnalyserException {
+        iplHashMap = this.adapter.loadIPLData(csvFilePath);
+        return iplHashMap;
+    }
+
+    public String getFieldWiseSortedIPLData(FieldsToSort fieldName, Map<String, IPLDAO> iplHashMap) throws AnalyserException {
         Comparator<IPLDAO> comparator = null;
+        SortingContainer container = new SortingContainer();
         if (iplHashMap == null || iplHashMap.size() == 0) {
-            throw new AnalyserException("No Census Data", AnalyserException.ExceptionType.NO_CENSUS_DATA);
+            throw new AnalyserException("NO_CENSUS_DATA", AnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
-        comparator = container.getParameter(fieldName);
+        comparator = container.getData(fieldName);
         ArrayList arrayList = iplHashMap.values().stream()
                 .sorted(comparator)
                 .collect(Collectors.toCollection(ArrayList::new));

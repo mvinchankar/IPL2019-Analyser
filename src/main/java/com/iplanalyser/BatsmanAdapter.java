@@ -41,8 +41,6 @@ public class BatsmanAdapter extends IPLAdapter {
         } catch (IOException | CSVBuilderException e) {
             throw new AnalyserException(e.getMessage(),
                     AnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        } catch (RuntimeException e) {
-            throw new AnalyserException(e.getMessage(), AnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
 }
